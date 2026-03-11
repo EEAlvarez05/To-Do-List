@@ -117,3 +117,8 @@ DELETE /api/tasks/:id
 
 - El backend utiliza un **array en memoria**, por lo que las tareas se reinician al reiniciar el servidor.
 - No se utiliza base de datos en este proyecto.
+
+# Screenshot
+<img width="1919" height="1008" alt="image" src="https://github.com/user-attachments/assets/fefbc62f-e2ff-4028-a60a-e8f7e7fb3eda" />
+
+  
