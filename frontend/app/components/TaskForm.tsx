@@ -1,56 +1,35 @@
 "use client";
+import { useState } from "react";
 
-import { useState, useEffect } from "react";
-import { Task } from "@/types/task";
-
-interface TaskFormProps {
-  onSubmit: (title: string) => void;
-  editingTask: Task | null;
-  onCancelEdit: () => void;
+interface Props {
+  addTask: (title: string) => void;
 }
+export default function TaskForm({ addTask }: Props) {
+  const [title, setTitle] = useState("");
 
-export default function TaskForm({ onSubmit, editingTask, onCancelEdit }: TaskFormProps) {
-  const [value, setValue] = useState<string>("");
-
-  useEffect(() => {
-    if (editingTask) setValue(editingTask.title);
-    else setValue("");
-  }, [editingTask]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = value.trim();
-    if (!trimmed) return;
-    onSubmit(trimmed);
-    setValue("");
+    if (!title.trim()) return;
+    addTask(title);
+    setTitle("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex rounded-full overflow-hidden bg-gray-100 mb-7">
+    <form onSubmit={handleSubmit} className="flex rounded-full overflow-hidden bg-gray-100 mb-4">
       <input
         type="text"
-        value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
-        placeholder={editingTask ? "Edit your task..." : "Add your task"}
+        placeholder="Add your task"
         autoFocus
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         className="flex-1 bg-transparent px-5 py-3.5 text-[15px] text-gray-700 placeholder-gray-400 outline-none"
       />
-
-      <div className="flex items-center">
-        {editingTask && (
-          <button
-            type="button"
-            onClick={() => { setValue(""); onCancelEdit(); }}
-            className="px-4 py-3.5 text-sm font-semibold text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            Cancel
-          </button>
-        )}
+      <div>
         <button
           type="submit"
           className="bg-orange-500 hover:bg-orange-600 active:scale-95 text-white font-bold px-6 py-3.5 rounded-full text-[15px] tracking-wide transition-all duration-150 whitespace-nowrap"
         >
-          {editingTask ? "SAVE ✓" : "ADD +"}
+          ADD +
         </button>
       </div>
     </form>
